@@ -1,2 +1,4 @@
 .claude
 .venv
+logreg_model.npz
+houses.csv
