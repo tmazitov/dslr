@@ -1,5 +1,5 @@
 import sys
-
+import numpy as np
 import pandas as pd
 
 NUMERIC_FEATURES = [
@@ -57,6 +57,22 @@ def load_dataset(path):
         sys.exit("error: dataset is missing the 'Hogwarts House' column")
 
     return df
+
+def load_model():
+    try:
+        data = np.load("logreg_model.npz")
+        W = data["W"]
+        B = data["B"]
+    except FileNotFoundError:
+        print("Error: Model file 'logreg_model.npz' not found.")
+        sys.exit(1)
+    except KeyError:
+        print("Error: Model file is missing 'W' or 'B'.")
+        sys.exit(1)
+    except (ValueError, EOFError, OSError):
+        print("Error: Model file is empty, corrupted, or invalid.")
+        sys.exit(1)
+    return W, B
 
 
 def available_features(df):
